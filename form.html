@@ -65,11 +65,11 @@
             "クラッシュ": ["HANAOKA", "THRONE OF ANUBIS"]
         };
 
-        const tankCharacters = [
-            "D.VA", "ウィンストン", "オリーサ", "ザリア", "シグマ",
-            "ジャンカークイーン", "ドゥームフィスト", "マウガ", "ラインハルト",
-            "ラマットラ", "レッキングボール", "ロードホッグ"
-        ];
+        const charactersByRole = {
+            "タンク": ["D.VA", "ウィンストン", "オリーサ", "ザリア", "シグマ", "ジャンカークイーン", "ドゥームフィスト", "マウガ", "ラインハルト", "ラマットラ", "レッキングボール", "ロードホッグ"],
+            "DPS": ["アッシュ", "ウィドウメーカー", "エコー", "キャスディ", "ゲンジ", "シンメトラ", "ジャンクラット", "ソジョーン", "ソルジャー76", "ソンブラ", "トールビョーン", "トレーサー", "ハンゾー", "バスティオン", "ファラ", "メイ", "リーパー"],
+            "サポート": ["アナ", "イラリー", "キリコ", "ジュノ", "ゼニヤッタ", "バティスト", "ブリギッテ", "マーシー", "モイラ", "ライフウィーバー", "ルシオ"]
+        };
 
         function updateMaps() {
             const ruleSelect = document.getElementById("game_mode");
@@ -86,35 +86,24 @@
             });
         }
 
-        function populateTankSelects() {
-            const teamTankSelect = document.getElementById("team_tank");
-            const enemyTankSelect = document.getElementById("enemy_tank");
-
-            teamTankSelect.innerHTML = "";
-            enemyTankSelect.innerHTML = "";
-
-            tankCharacters.forEach(character => {
-                const teamOption = document.createElement("option");
-                teamOption.value = character;
-                teamOption.textContent = character;
-                teamTankSelect.appendChild(teamOption);
-
-                const enemyOption = document.createElement("option");
-                enemyOption.value = character;
-                enemyOption.textContent = character;
-                enemyTankSelect.appendChild(enemyOption);
-            });
-        }
-
-        function updateRoleName() {
+        function updateCharacterOptions() {
             const roleSelect = document.getElementById("role");
-            const roleNameDisplay = document.getElementById("role_name");
-            roleNameDisplay.textContent = roleSelect.value; // 選択されたロール名に更新
+            const characterSelect = document.getElementById("character");
+            const selectedRole = roleSelect.value;
+
+            characterSelect.innerHTML = "";
+
+            charactersByRole[selectedRole].forEach(character => {
+                const option = document.createElement("option");
+                option.value = character;
+                option.textContent = character;
+                characterSelect.appendChild(option);
+            });
         }
 
         window.onload = () => {
             updateMaps();
-            populateTankSelects();
+            updateCharacterOptions();
         };
     </script>
 </head>
@@ -134,20 +123,15 @@
         <label for="stage">マップ:</label>
         <select name="stage" id="stage"></select>
 
-        <label for="team_tank">味方タンク:</label>
-        <select name="team_tank" id="team_tank"></select>
-
-        <label for="enemy_tank">敵タンク:</label>
-        <select name="enemy_tank" id="enemy_tank"></select>
-
         <label for="role">ロール:</label>
-        <select name="role" id="role" onchange="updateRoleName()">
+        <select name="role" id="role" onchange="updateCharacterOptions()">
             <option value="タンク">タンク</option>
             <option value="DPS">DPS</option>
             <option value="サポート">サポート</option>
         </select>
 
-        <p>選択したロール名: <span id="role_name">タンク</span></p>
+        <label for="character">自分のキャラ:</label>
+        <select name="character" id="character"></select>
 
         <label for="time_of_day">時間帯:</label>
         <select name="time_of_day" id="time_of_day">
