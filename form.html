@@ -86,6 +86,26 @@
             });
         }
 
+        function populateTankSelects() {
+            const teamTankSelect = document.getElementById("team_tank");
+            const enemyTankSelect = document.getElementById("enemy_tank");
+
+            teamTankSelect.innerHTML = "";
+            enemyTankSelect.innerHTML = "";
+
+            charactersByRole["タンク"].forEach(character => {
+                const teamOption = document.createElement("option");
+                teamOption.value = character;
+                teamOption.textContent = character;
+                teamTankSelect.appendChild(teamOption);
+
+                const enemyOption = document.createElement("option");
+                enemyOption.value = character;
+                enemyOption.textContent = character;
+                enemyTankSelect.appendChild(enemyOption);
+            });
+        }
+
         function updateCharacterOptions() {
             const roleSelect = document.getElementById("role");
             const characterSelect = document.getElementById("character");
@@ -103,6 +123,7 @@
 
         window.onload = () => {
             updateMaps();
+            populateTankSelects();
             updateCharacterOptions();
         };
     </script>
@@ -122,6 +143,12 @@
 
         <label for="stage">マップ:</label>
         <select name="stage" id="stage"></select>
+
+        <label for="team_tank">味方タンク:</label>
+        <select name="team_tank" id="team_tank"></select>
+
+        <label for="enemy_tank">敵タンク:</label>
+        <select name="enemy_tank" id="enemy_tank"></select>
 
         <label for="role">ロール:</label>
         <select name="role" id="role" onchange="updateCharacterOptions()">
