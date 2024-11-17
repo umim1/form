@@ -56,35 +56,46 @@
         }
     </style>
     <script>
-        const charactersByRole = {
-            "タンク": ["D.VA", "ウィンストン", "オリーサ", "ザリア", "シグマ", "ジャンカークイーン", "ドゥームフィスト", "マウガ", "ラインハルト", "ラマットラ", "レッキングボール", "ロードホッグ"],
-            "DPS": ["アッシュ", "ウィドウメーカー", "エコー", "キャスディ", "ゲンジ", "シンメトラ", "ジャンクラット", "ソジョーン", "ソルジャー76", "ソンブラ", "トールビョーン", "トレーサー", "ハンゾー", "バスティオン", "ファラ", "メイ", "リーパー"],
-            "サポート": ["アナ", "イラリー", "キリコ", "ジュノ", "ゼニヤッタ", "バティスト", "ブリギッテ", "マーシー", "モイラ", "ライフウィーバー", "ルシオ"]
-        };
+        const tankCharacters = [
+            "D.VA", "ウィンストン", "オリーサ", "ザリア", "シグマ",
+            "ジャンカークイーン", "ドゥームフィスト", "マウガ", "ラインハルト",
+            "ラマットラ", "レッキングボール", "ロードホッグ"
+        ];
 
-        function updateCharacterOptions() {
-            const roleSelect = document.getElementById("role");
-            const characterSelect = document.getElementById("character");
-            const selectedRole = roleSelect.value;
+        function populateTankSelects() {
+            const teamTankSelect = document.getElementById("team_tank");
+            const enemyTankSelect = document.getElementById("enemy_tank");
 
-            characterSelect.innerHTML = ""; // 選択肢をクリア
+            teamTankSelect.innerHTML = ""; // 一旦クリア
+            enemyTankSelect.innerHTML = ""; // 一旦クリア
 
-            charactersByRole[selectedRole].forEach(character => {
-                const option = document.createElement("option");
-                option.value = character;
-                option.textContent = character;
-                characterSelect.appendChild(option);
+            tankCharacters.forEach(character => {
+                const teamOption = document.createElement("option");
+                teamOption.value = character;
+                teamOption.textContent = character;
+                teamTankSelect.appendChild(teamOption);
+
+                const enemyOption = document.createElement("option");
+                enemyOption.value = character;
+                enemyOption.textContent = character;
+                enemyTankSelect.appendChild(enemyOption);
             });
         }
 
         window.onload = () => {
-            updateCharacterOptions(); // ページ読み込み時に初期化
+            populateTankSelects(); // ページ読み込み時にタンクキャラをセット
         };
     </script>
 </head>
 <body>
     <h1>試合データ入力フォーム</h1>
     <form method="POST" action="/submit">
+        <label for="team_tank">味方タンク:</label>
+        <select name="team_tank" id="team_tank"></select>
+
+        <label for="enemy_tank">敵タンク:</label>
+        <select name="enemy_tank" id="enemy_tank"></select>
+
         <label for="role">ロール:</label>
         <select name="role" id="role" onchange="updateCharacterOptions()">
             <option value="タンク">タンク</option>
