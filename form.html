@@ -65,13 +65,11 @@
             "クラッシュ": ["HANAOKA", "THRONE OF ANUBIS"]
         };
 
-        const charactersByRole = {
-            "タンク": ["D.VA", "ウィンストン", "オリーサ", "ザリア", "シグマ", "ジャンカークイーン", "ドゥームフィスト", "マウガ", "ラインハルト", "ラマットラ", "レッキングボール", "ロードホッグ"],
-            "DPS": ["アッシュ", "ウィドウメーカー", "エコー", "キャスディ", "ゲンジ", "シンメトラ", "ジャンクラット", "ソジョーン", "ソルジャー76", "ソンブラ", "トールビョーン", "トレーサー", "ハンゾー", "バスティオン", "ファラ", "メイ", "リーパー"],
-            "サポート": ["アナ", "イラリー", "キリコ", "ジュノ", "ゼニヤッタ", "バティスト", "ブリギッテ", "マーシー", "モイラ", "ライフウィーバー", "ルシオ"]
-        };
-
-        const tankCharacters = charactersByRole["タンク"];
+        const tankCharacters = [
+            "D.VA", "ウィンストン", "オリーサ", "ザリア", "シグマ",
+            "ジャンカークイーン", "ドゥームフィスト", "マウガ", "ラインハルト",
+            "ラマットラ", "レッキングボール", "ロードホッグ"
+        ];
 
         function updateMaps() {
             const ruleSelect = document.getElementById("game_mode");
@@ -108,25 +106,15 @@
             });
         }
 
-        function updateCharacterOptions() {
+        function updateRoleName() {
             const roleSelect = document.getElementById("role");
-            const characterSelect = document.getElementById("character");
-            const selectedRole = roleSelect.value;
-
-            characterSelect.innerHTML = "";
-
-            charactersByRole[selectedRole].forEach(character => {
-                const option = document.createElement("option");
-                option.value = character;
-                option.textContent = character;
-                characterSelect.appendChild(option);
-            });
+            const roleNameDisplay = document.getElementById("role_name");
+            roleNameDisplay.textContent = roleSelect.value; // 選択されたロール名に更新
         }
 
         window.onload = () => {
             updateMaps();
             populateTankSelects();
-            updateCharacterOptions();
         };
     </script>
 </head>
@@ -153,14 +141,13 @@
         <select name="enemy_tank" id="enemy_tank"></select>
 
         <label for="role">ロール:</label>
-        <select name="role" id="role" onchange="updateCharacterOptions()">
+        <select name="role" id="role" onchange="updateRoleName()">
             <option value="タンク">タンク</option>
             <option value="DPS">DPS</option>
             <option value="サポート">サポート</option>
         </select>
 
-        <label for="character">自分のキャラ:</label>
-        <select name="character" id="character"></select>
+        <p>選択したロール名: <span id="role_name">タンク</span></p>
 
         <label for="time_of_day">時間帯:</label>
         <select name="time_of_day" id="time_of_day">
